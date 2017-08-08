@@ -175,6 +175,12 @@ ul.choices{
     padding-left: 100px;
     padding-top: 10px;
 }
+.comment{
+    font-style: italic;
+    padding-top: 4px;
+    padding-left: 40px;
+    font-size: small;
+}
 
 
 
