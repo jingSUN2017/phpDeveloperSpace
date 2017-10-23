@@ -15,12 +15,13 @@ class homeController extends Controller
 
         $shortenBlogs=array();
         $timeFormat=array();
+        $countReply=array();
         $num=0;
         foreach($bloggs as $blog)
         {
             $shortenBlogs[$num]=Blog::shortenText($blog->body,100);
             $timeFormat[$num]=Blog::timeFormat($blog->created_at);
-            $countReply[$num]=Blog::countReply($blog['id']);
+            $countReply[$num]=Blog::countReply($blog->id);
             $num++;
         }
         return view('home')->with('bloggs',$bloggs)

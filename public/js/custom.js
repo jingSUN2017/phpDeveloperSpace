@@ -1,4 +1,5 @@
 var postId = 0;
+var postBodyElement = null;
 
 $('.like').on('click', function(event) {
     event.preventDefault();
@@ -6,33 +7,40 @@ $('.like').on('click', function(event) {
     var isLike = true;
     $.ajax({
         header: {"X-CSRF-Token": token},
-        type: 'POST',
+        method: 'POST',
         url: urlLike,
         data: {'isLike': isLike, 'postId': postId, '_token': token},
 
         success: function(data){
             //alert(data);
             event.target.innerText = event.target.innerText === 'Like' ? 'You like this post' : 'Like';
+            window.location.reload();
         }
     })
 });
 
-$(document).ready(function(){
-    $('.commentContainer').hide();
-   // var div = document.getElementsByClassName('commentContainer');
-   // div.show();
-});
-$('.comment').on('click',function (event) {
+$('.editMyBlog').on('click', function (event) {
     event.preventDefault();
-   // var div = $('.commentContainer')
-    //var div = $('#this').children('div .commentContainer');
-    var div = document.getElementsByClassName('commentContainer');
+    jQuery.noConflict();
 
-    if ( div.style.display === "none" ) {
-        event.target.innerText='cancle my comment';
-        div.show();
-    } else {
-        event.target.innerText='leave a comment';
-        div.hide();
-    }
+    postBodyElement = event.target.parentNode.parentNode.parentNode.lastElementChild;
+    postId = event.target.parentNode.parentNode.parentNode.dataset['postid'];
+
+    var postBody = postBodyElement.textContent;
+    $('#post-body').val(postBody);
+    $('#edit-modal').modal();
+});
+
+$('#modal-save').on('click', function () {
+    $.ajax({
+        header: {"X-CSRF-Token": token},
+        method: 'POST',
+        url: urlEdit,
+        data: {'body': $('#post-body').val(), 'postId': postId, '_token': token},
+
+        success:function(msg){
+            $(postBodyElement).text(msg['new_body']);
+            $('#edit-modal').modal('hide');
+        }
+    })
 });

@@ -11,7 +11,6 @@
                 <p><h4>{{$comment}}</h4></p>
             </div>
             <div class="showPosition">
-                <a href="{{route('quizzer.checkAnswers')}}"><input type="submit" value="Check your answer"/></a>
                 <span><a href="{{route('quizzer.index')}}"><input type="submit" value="Try again"/></a></span>
             </div>
         </div>

@@ -84,7 +84,6 @@ class blogController extends Controller
     {
         $is_like = (boolean)$request['isLike'];
         $blog_id = $request['postId'];
-        $update = false;
         $blog = Blog::find($blog_id);
         if (!$blog) {
             return null;
@@ -93,26 +92,53 @@ class blogController extends Controller
         $like = $user->likes()->where('blog_id', $blog_id)->first();
 
         if ($like) {
-            $already_like = $like->like;
-            $update = true;
-            if ($already_like == $is_like) {
-                $like->delete();
-            }
+            $like->delete();
+            return null;
         } else {
             $like = new Like();
-        }
-        $like->like = $is_like;
-
-        $like->user_id = $user->id;
-
-        $like->blog_id = $blog->id;
-
-        if ($update) {
-            $like->update();
-
-        } else {
+            $like->like = $is_like;
+            $like->user_id = $user->id;
+            $like->blog_id = $blog->id;
             $like->save();
+            return null;
         }
-        return null;
+    }
+    public function getMyBlogs()
+    {
+        $myBlogs = Auth::user()->blogs->where('parent_id','=',NULL);
+
+        $timeFormat=array();
+        $num=0;
+        $countReply[$num]=null;
+        foreach($myBlogs as $blog)
+        {
+            $timeFormat[$num]=Blog::timeFormat($blog->created_at);
+            $countReply[$num]=Blog::countReply($blog['id']);
+            $num++;
+        }
+        return view('blogs.myBlogs')
+            ->with('myBlogs',$myBlogs)
+            ->with('timeFormat',$timeFormat)
+            ->with('countReply',$countReply);
+    }
+    public function getDeleteBlog($blog_id)
+    {
+        $blog = Blog::where('id', $blog_id)->first();
+        if (Auth::user() != $blog->user) {
+            return redirect()->back();
+        }
+        $blog->delete();
+        return redirect()->route('home')->with('info','One blog of Yours Deleted.');
+    }
+    public function postEditBlog(Request $request)
+    {
+        $this->validate($request, [
+            'body' => 'required'
+        ]);
+        $blog = Blog::find($request['postId']);
+        $blog->body = $request['body'];
+        $blog->update();
+
+        return response()->json(['new_body' => $blog->body]);
     }
 }

@@ -56,7 +56,6 @@ h6, .h6 {
     padding-bottom:20px;
 }
 .blog-footer {
-    padding: 40px 0;
     color: #999;
     text-align: center;
     background-color: #f9f9f9;
@@ -181,6 +180,7 @@ ul.choices{
     padding-left: 40px;
     font-size: small;
 }
+
 
 
 

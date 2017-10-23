@@ -50,7 +50,6 @@ class testController extends Controller
         }
         if($num==Quizzer::calculateNums()){
             return redirect()->route('quizzer.checkResults');
-
         }else{
             return redirect()->route('quizzer.questions',['num'=>$next]);
         }
@@ -74,9 +73,5 @@ class testController extends Controller
             ->with('score', Session::get('score'))
             ->with('percentage', $percentage)
             ->with('comment', $comment);
-    }
-    public function getAnswers()
-    {
-        return view('quizzer.checkAnswers');
     }
 }

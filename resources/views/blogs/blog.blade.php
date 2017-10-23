@@ -45,39 +45,26 @@
                     </h5>
                     </article>
                     <p>{{$reply->body}}</p>
-
-                    <div class="comment">Leave a comment
-                        <div class="commentContainer">
-                            <form role="form" action="{{route('blog.reply',['statusId'=>$blog->id])}}" method="post" style="padding-left: 20px">
-                                 <div class="form-group{{ $errors->has("reply-{$blog->id}")?' has-error':'' }}">
-                                    <textarea name="reply-{{$blog->id}}" class="form-control" rows="2" placeholder="Reply to this comment"></textarea>
-                                        @if($errors->has("reply-{$blog->id}"))
-                                            <span class="help-block">{{$errors->first("reply-{$blogs->id}")}}</span>
-                                        @endif
-                                 </div>
-                                <input type="submit" value="Reply" class="btn btn-default btn-sm">
-                                <input type="hidden" name="_token" value="{{Session::token()}}">
-                            </form>
-                        </div>
-                    </div>
                 </div>
 
             <hr>
         @endforeach
     </div>
-    <div class="col-md-9" style="margin-top: 25px;">
-        <form role="form" action="{{route('blog.reply',['statusId'=>$blog->id])}}" method="post">
-            <div class="form-group{{ $errors->has("reply-{$blog->id}")?' has-error':'' }}">
-                <textarea name="reply-{{$blog->id}}" class="form-control" rows="2" placeholder="Reply to this blog"></textarea>
-                @if($errors->has("reply-{$blog->id}"))
-                    <span class="help-block">{{$errors->first("reply-{$blogs->id}")}}</span>
-                @endif
-            </div>
-            <input type="submit" value="Reply" class="btn btn-default btn-sm">
-            <input type="hidden" name="_token" value="{{Session::token()}}">
-        </form>
-    </div>
-
+    @if(Auth::check())
+        <div class="col-md-9" style="margin-top: 10px; margin-left: 10px;">
+            <form role="form" action="{{route('blog.reply',['statusId'=>$blog->id])}}" method="post">
+                <div class="form-group{{ $errors->has("reply-{$blog->id}")?' has-error':'' }}">
+                    <textarea name="reply-{{$blog->id}}" class="form-control" rows="2" placeholder="Reply to this blog"></textarea>
+                    @if($errors->has("reply-{$blog->id}"))
+                        <span class="help-block">{{$errors->first("reply-{$blog->id}")}}</span>
+                    @endif
+                </div>
+                <input type="submit" value="Reply" class="btn btn-default btn-sm">
+                <a href="{{route('home')}}"><input type="button" value="Back" class="btn btn-default btn-sm"></a>
+                <input type="hidden" name="_token" value="{{Session::token()}}">
+            </form>
+        </div>
+    @endif
     <script>
         var token = '{{ Session::token() }}';
         var urlLike = '{{ route('like') }}';

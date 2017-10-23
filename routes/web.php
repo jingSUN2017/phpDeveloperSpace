@@ -54,7 +54,16 @@ Route::get('/blog/getBlog/{id}',[
 Route::get('/blogs/{user_id}',[
     'uses'=>'blogController@getBlogs',
     'as'=>'blog.getBlogs',
-
+]);
+Route::get('/deleteBlog/{blog_id}', [
+    'uses' => 'blogController@getDeleteBlog',
+    'as' => 'blog.delete',
+    'middleware' => 'auth'
+]);
+Route::get('/blog/myBlogs',[
+    'uses'=>'blogController@getMyBlogs',
+    'as'=>'blog.getMyBlogs',
+    'middleware'=>['auth'],
 ]);
 Route::get('/blog/createBlogs',[
     'uses'=>'blogController@createBlogs',
@@ -93,4 +102,12 @@ Route::post('/blog/{statusId}/reply',[
 Route::post('/like',[
     'uses'=>'blogController@postLikeBlog',
     'as'=>'like'
+]);
+Route::get('/search',[
+    'uses'=>'searchController@getSearchResult',
+    'as'=>'search'
+]);
+Route::post('/edit', [
+    'uses' => 'blogController@postEditBlog',
+    'as' => 'edit'
 ]);
