@@ -33,11 +33,11 @@
                                     <h5 class="topic-info"><a href={{route('blog.getBlogs',['user_id'=>$reply->user_id])}}>
                                         <b>{{$reply->user->getUsername()}}</b></a>
                                         <span style="padding-left: 20px;">{{$reply->created_at->diffForHumans()}}</span> >>
-                                        {{$blog->likes->count()}} {{str_plural('like',$blog->likes->count())}}
+                                        {{$reply->likes->count()}} {{str_plural('like',$reply->likes->count())}}
                                         @if(Auth::check() && $reply->user_id != Auth::user()->id)
                                             <span class="pull-right">
                                                  <a href="#" class="like">
-                                                    {{ Auth::user()->likes()->where('blog_id', $blog->id)->first() ? Auth::user()->likes()->where('blog_id', $blog->id)->first()->like == 1 ? 'You like this post' : 'Like' : 'Like'  }}
+                                                    {{ Auth::user()->likes()->where('blog_id', $reply->id)->first() ? Auth::user()->likes()->where('blog_id', $reply->id)->first()->like == 1 ? 'You like this post' : 'Like' : 'Like'  }}
                                                 </a>
                                             </span>
                                         @endif

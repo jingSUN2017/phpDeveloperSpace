@@ -47,7 +47,7 @@ class blogController extends Controller
 
         if(!$status)
         {
-            dd('aa');
+            return;
         }
 
         $reply=Blog::create([

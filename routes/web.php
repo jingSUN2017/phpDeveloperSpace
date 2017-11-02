@@ -25,12 +25,12 @@ Route::post('/createAccount',[
     'middleware'=>['guest']
 ]);
 Route::get('/logIn',[
-    'uses'=>'authController@getSignIn',
+    'uses'=>'AuthController@getSignIn',
     'as'=>'auth.logIn',
     'middleware'=>['guest']
 ]);
 Route::post('/logIn',[
-    'uses'=>'authController@postSignIn',
+    'uses'=>'AuthController@postSignIn',
     'middleware'=>['guest']
 ]);
 Route::get('/personalInfo',[
